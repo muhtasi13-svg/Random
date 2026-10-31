@@ -2,6 +2,7 @@
 #include <raylib.h>
 # define Width 800
 #define Height 600
+#define Paticle_NUM 15
 typedef struct {
     float x,y,r,vx,vy;
 }particle;
