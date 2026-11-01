@@ -1,12 +1,14 @@
-<<<<<<< HEAD
+
 
 #include <raylib.h>
+#include <time.h>
 # define Width 800
 #define Height 600
-#define Paticle_NUM 15
+#define Particle_NUM 15
 typedef struct {
     float x,y,r,vx,vy;
 }particle;
+particle Particles[Particle_NUM];
 void Drawparticle(particle *particle){
 DrawCircle(particle->x,particle->y,particle->r,BLUE);
 }
@@ -35,36 +37,42 @@ void Updateparticle(particle *particle){
         particle->vy=-particle->vy;
     }
 }
+void Drawparticles(){
+   for(int i=0;i<Particle_NUM;i++){
+    Drawparticle(Particles+i);
+   }
+}
+void Updateparticles(){
+     for(int i=0;i<Particle_NUM;i++){
+        Updateparticle(Particles+i);
+     }
+}
+void Initparticles(){
+    SetRandomSeed(time(NULL));
+    for(int i=0;i<Particle_NUM;i++){
+        int radius=GetRandomValue(5,15);
+        Particles[i].r=radius;
+        Particles[i].x=GetRandomValue(radius,Width-radius);
+        Particles[i].y=GetRandomValue(radius,Height-radius);
+        Particles[i].vx=GetRandomValue(-5,5);
+        Particles[i].vy=GetRandomValue(-5,5);
+        
+    }
+}
+
 int main(){
 
 SetTargetFPS(60);
 InitWindow(800,600,"Particle Simulation");
-particle p1 ={400,300,10,5,7};
-particle p2 ={200,350,10,4,2};
-particle p3 ={100,200,10,3,20};
-particle p4 ={400,220,10,5,6};
-particle p5 ={560,30,10,7,8};
-particle p6 ={700,320,10,-4,2};
-particle p7 ={40,310,10,5,2};
+Initparticles();
 while (!WindowShouldClose())
 {
     BeginDrawing();
     ClearBackground(BLACK);
-    Drawparticle(&p1);
-    Updateparticle(&p1);
-    Drawparticle(&p2);
-    Updateparticle(&p2);
-    Drawparticle(&p3);
-    Updateparticle(&p3);
-    Drawparticle(&p4);
-    Updateparticle(&p4);
-    Drawparticle(&p5);
-    Updateparticle(&p5);
-    Drawparticle(&p6);
-    Updateparticle(&p6);
-    Drawparticle(&p7);
-    Updateparticle(&p7);
+    Drawparticles();
+    Updateparticles();
     EndDrawing();
 
 }
 CloseWindow();
+}
